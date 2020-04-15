@@ -29,11 +29,11 @@ public class Movement : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             idle.Active = false;
-            walk.Active = true;
+            walk.Activate(true);
         }
         else
         {
-            idle.Active = true;
+            idle.Activate(true);
             walk.Active = false;
         }
         if (Input.GetButton("Jump"))
