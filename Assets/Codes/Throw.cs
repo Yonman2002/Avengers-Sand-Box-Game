@@ -7,6 +7,7 @@ public class Throw : MonoBehaviour
     private bool canThrow;
     private Rigidbody rigidBody;
     private Collider col;
+    private Damage damage;
 
     public float throwForce;
     public float speed;
@@ -18,6 +19,7 @@ public class Throw : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         col = GetComponentInChildren<Collider>();
+        damage = GetComponent<Damage>();
         canThrow = true;
     }
 
@@ -27,6 +29,7 @@ public class Throw : MonoBehaviour
         if (canThrow && Input.GetMouseButtonDown(0))
         {
             col.enabled = true;
+            damage.enabled = true;
             //rigidBody.constraints -= RigidbodyConstraints.FreezePositionZ;
             transform.parent = null;
             rigidBody.velocity = (player.transform.forward * throwForce);
@@ -53,7 +56,7 @@ public class Throw : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.GetComponentInChildren<Movement>())
+        if (!collision.gameObject.GetComponentInChildren<PlayerController>())
         {
             //Send back shield
             transform.LookAt(parent.transform);
@@ -63,6 +66,7 @@ public class Throw : MonoBehaviour
         else
         {
             col.enabled = false;
+            damage.enabled = false;
             Debug.Log("hi3");
             transform.parent = parent.transform;
             rigidBody.velocity = Vector3.zero;
@@ -77,9 +81,10 @@ public class Throw : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.GetComponentInChildren<Movement>())
+        if (collision.gameObject.GetComponentInChildren<PlayerController>())
         {
             col.enabled = true;
+            damage.enabled = true;
         }
     }
 }
