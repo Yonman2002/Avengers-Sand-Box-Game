@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour
     private float horizontal;
     private float vertical;
 
+    public AdvancedAnimation idle;
+    public AdvancedAnimation walk;
     public Transform CollisionPos;
     public float JumpForce;
     public float speed;
@@ -24,6 +26,16 @@ public class Movement : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         Vector3 trueSpeed = new Vector3(horizontal * speed, rigidBody.velocity.y, vertical * speed);
+        if (horizontal != 0 || vertical != 0)
+        {
+            idle.Active = false;
+            walk.Active = true;
+        }
+        else
+        {
+            idle.Active = true;
+            walk.Active = false;
+        }
         if (Input.GetButton("Jump"))
         {
             if (Physics.CheckBox(CollisionPos.position, CollisionPos.localScale, Quaternion.identity, ~(1 << 8)))

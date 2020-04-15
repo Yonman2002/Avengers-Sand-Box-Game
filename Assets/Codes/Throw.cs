@@ -11,6 +11,7 @@ public class Throw : MonoBehaviour
     public float throwForce;
     public float speed;
     public GameObject parent;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +28,8 @@ public class Throw : MonoBehaviour
         {
             col.enabled = true;
             //rigidBody.constraints -= RigidbodyConstraints.FreezePositionZ;
-            rigidBody.velocity = (transform.parent.forward * throwForce);
             transform.parent = null;
+            rigidBody.velocity = (player.transform.forward * throwForce);
             //rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y, speed * Time.deltaTime);
             canThrow = false;
         }
@@ -46,13 +47,13 @@ public class Throw : MonoBehaviour
         }
         if (transform.parent != null)
         {
-            transform.localPosition = new Vector3(0.77f, 0, 0);
+            transform.localPosition = new Vector3(-0.4f, 0, 0);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject != parent)
+        if (!collision.gameObject.GetComponentInChildren<Movement>())
         {
             //Send back shield
             transform.LookAt(parent.transform);
@@ -66,7 +67,7 @@ public class Throw : MonoBehaviour
             transform.parent = parent.transform;
             rigidBody.velocity = Vector3.zero;
             transform.localPosition = new Vector3(0.77f, 0, 0);
-            transform.localEulerAngles = new Vector3(90f, 90f, 0);
+            transform.localEulerAngles = new Vector3(180f, 0, 90f);
             canThrow = true;
             /*rigidBody.constraints -= RigidbodyConstraints.FreezePositionZ;
             rigidBody.constraints -= RigidbodyConstraints.FreezePositionX;
@@ -76,7 +77,7 @@ public class Throw : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject == parent)
+        if (collision.gameObject.GetComponentInChildren<Movement>())
         {
             col.enabled = true;
         }
