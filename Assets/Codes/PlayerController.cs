@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;
 
     public static PlayerController player;
+    public GameObject PauseScreen;
     public AdvancedAnimation idle;
     public AdvancedAnimation walk;
     public Transform CollisionPos;
@@ -25,6 +26,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (Time.timeScale == 0)
+            {
+                Resume();
+            }
+            else
+            {
+                Time.timeScale = 0;
+                PauseScreen.SetActive(true);
+            }
+        }
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
         Vector3 trueSpeed = new Vector3(horizontal * speed, rigidBody.velocity.y, vertical * speed);
@@ -51,5 +64,11 @@ public class PlayerController : MonoBehaviour
             }
         }
         rigidBody.velocity = trueSpeed;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        PauseScreen.SetActive(false);
     }
 }

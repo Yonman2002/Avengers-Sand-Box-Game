@@ -16,7 +16,7 @@ public class SwitchCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Input.GetButtonDown("SwitchCam"))
         {
             cameras[curCamera].gameObject.SetActive(false);
             curCamera = (curCamera + 1) % 3;

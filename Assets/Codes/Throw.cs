@@ -26,17 +26,18 @@ public class Throw : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canThrow && Input.GetMouseButtonDown(0))
+        if (canThrow && Input.GetMouseButtonDown(0) && Time.timeScale == 1)
         {
             col.enabled = true;
             damage.enabled = true;
             //rigidBody.constraints -= RigidbodyConstraints.FreezePositionZ;
             transform.parent = null;
+            transform.localPosition += new Vector3(0.5f, 0, 0);
             rigidBody.velocity = (player.transform.forward * throwForce);
             //rigidBody.velocity = new Vector3(rigidBody.velocity.x, rigidBody.velocity.y, speed * Time.deltaTime);
             canThrow = false;
         }
-        if (!canThrow && Input.GetMouseButtonDown(1))
+        if (!canThrow && Input.GetMouseButtonDown(1) && Time.timeScale == 1)
         {
             //Send back shield
             //rigidBody.constraints -= RigidbodyConstraints.FreezePositionX;
